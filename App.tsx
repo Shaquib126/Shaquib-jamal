@@ -8,7 +8,6 @@ import SeoServices from './components/SeoServices';
 import SeoGuide from './components/SeoGuide';
 import GeminiAssistant from './components/GeminiAssistant';
 import WhatsAppButton from './components/WhatsAppButton';
-import Logo3DViewer from './components/Logo3DViewer';
 import ContactForm from './components/ContactForm';
 import LoadingScreen from './components/LoadingScreen';
 import PerformanceStats from './components/PerformanceStats';
@@ -54,7 +53,14 @@ const App: React.FC = () => {
         <Hero />
         
         <section id="systems" className="py-20 md:py-32 relative overflow-hidden border-b border-slate-200 dark:border-zinc-900 reveal">
-          <div className="container mx-auto px-6">
+          <div className="absolute inset-0 opacity-5 pointer-events-none">
+            <img 
+              src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&q=80&w=2000" 
+              className="w-full h-full object-cover" 
+              alt="Background pattern"
+            />
+          </div>
+          <div className="container mx-auto px-6 relative z-10">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
               {[
                 {
@@ -96,38 +102,42 @@ const App: React.FC = () => {
         <div className="reveal"><ProjectShowcase /></div>
         <div className="reveal"><SeoServices /></div>
         <div className="reveal"><SeoGuide /></div>
-        <div className="reveal"><GlassConfigurator /></div>
-        <div className="reveal"><ContactForm /></div>
-
-        <section id="brand-view" className="py-20 md:py-32 relative overflow-hidden bg-slate-100 dark:bg-white text-black transition-colors duration-500 reveal">
-          <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
-              <div className="relative z-10 order-2 lg:order-1">
-                <p className="text-[10px] uppercase tracking-[0.6em] mb-6 text-blue-600 font-black">Identity Matrix</p>
-                <h2 className="font-syncopate text-4xl md:text-7xl font-bold mb-8 md:mb-10 uppercase leading-[0.9] tracking-tighter">
-                  BUILT FOR <br/><span className="text-slate-400 dark:text-zinc-300">DEPTH</span>
-                </h2>
-                <p className="text-slate-600 dark:text-zinc-600 text-base md:text-lg mb-8 md:mb-12 leading-relaxed max-w-md">
-                  Our identity is a structural manifesto. Every angle, shadow, and refraction is calculated to reflect our commitment to architectural precision.
-                </p>
-                <div className="grid grid-cols-2 gap-4 md:gap-8">
-                  <div className="p-4 md:p-6 border border-slate-200 dark:border-zinc-100 bg-white/50">
-                    <p className="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Dimension</p>
-                    <p className="font-syncopate text-sm md:text-lg">AXONOMETRIC</p>
-                  </div>
-                  <div className="p-4 md:p-6 border border-slate-200 dark:border-zinc-100 bg-white/50">
-                    <p className="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Stability</p>
-                    <p className="font-syncopate text-sm md:text-lg">REINFORCED</p>
-                  </div>
-                </div>
+        
+        {/* New Manifest Section replacing 360 View */}
+        <section id="manifesto" className="relative py-32 md:py-48 overflow-hidden reveal">
+          <div className="absolute inset-0 z-0">
+            <img 
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000" 
+              className="w-full h-full object-cover grayscale opacity-20 dark:opacity-40"
+              alt="Glass Facade Detail"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-[#050505] via-transparent to-slate-50 dark:to-[#050505]"></div>
+          </div>
+          
+          <div className="container mx-auto px-6 relative z-10 text-center">
+            <p className="text-[10px] uppercase tracking-[0.6em] mb-6 text-blue-600 font-black">Design Principles</p>
+            <h2 className="font-syncopate text-4xl md:text-7xl font-bold mb-10 uppercase leading-[0.9] tracking-tighter">
+              CRAFTING THE <br/><span className="text-blue-600 dark:text-blue-500">INVISIBLE</span> BORDER
+            </h2>
+            <p className="text-slate-600 dark:text-zinc-400 text-base md:text-xl mb-12 leading-relaxed max-w-3xl mx-auto">
+              Our facades are more than just glass and aluminum; they are high-performance skins that breathe, protect, and redefine the human experience within the urban landscape.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-12">
+              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/20">
+                <p className="font-syncopate text-sm md:text-lg">PRECISION</p>
               </div>
-              
-              <div className="relative p-2 md:p-4 bg-white rounded-3xl border border-slate-200 shadow-2xl order-1 lg:order-2">
-                <Logo3DViewer />
+              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/20">
+                <p className="font-syncopate text-sm md:text-lg">DURABILITY</p>
+              </div>
+              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/20">
+                <p className="font-syncopate text-sm md:text-lg">EFFICIENCY</p>
               </div>
             </div>
           </div>
         </section>
+
+        <div className="reveal"><GlassConfigurator /></div>
+        <div className="reveal"><ContactForm /></div>
       </main>
 
       <footer className="py-20 md:py-32 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-zinc-900 relative transition-colors duration-500">
@@ -164,7 +174,7 @@ const App: React.FC = () => {
           </div>
           
           <div className="pt-8 md:pt-12 border-t border-slate-200 dark:border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-            <p className="text-slate-400 dark:text-zinc-700 text-[8px] md:text-[9px] uppercase tracking-[0.4em]">© 2024 SHAQUIB SHAIKH FACADE SYSTEMS. OPTIMIZED FOR MOBILE VIEW.</p>
+            <p className="text-slate-400 dark:text-zinc-700 text-[8px] md:text-[9px] uppercase tracking-[0.4em]">© 2024 SHAQUIB SHAIKH FACADE SYSTEMS. OPTIMIZED FOR RENDERING PERFORMANCE.</p>
             <div className="flex gap-6 md:gap-10 text-slate-400 dark:text-zinc-700 text-[8px] md:text-[9px] uppercase tracking-[0.4em]">
               <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">System Protocol</a>
               <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">Technical Privacy</a>

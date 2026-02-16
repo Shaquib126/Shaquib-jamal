@@ -43,6 +43,13 @@ const SeoServices: React.FC = () => {
 
   return (
     <section id="seo" className="py-24 bg-[#080808] border-t border-zinc-900 overflow-hidden relative">
+      <div className="absolute inset-0 opacity-5 pointer-events-none">
+        <img 
+          src="https://images.unsplash.com/photo-1551218808-94e220e084d2?auto=format&fit=crop&q=80&w=2000" 
+          className="w-full h-full object-cover" 
+          alt="Facade backdrop"
+        />
+      </div>
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] -mr-64 -mt-64"></div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-4xl mb-20">
@@ -78,11 +85,11 @@ const SeoServices: React.FC = () => {
         <div className="mt-20 glass-panel p-1 border-none bg-gradient-to-r from-blue-600/20 via-zinc-800 to-blue-600/20">
           <div className="bg-[#080808] p-10 flex flex-col md:flex-row justify-between items-center gap-8">
             <div>
-              <h3 className="font-syncopate text-xl text-white mb-2">READY FOR A TECHNICAL AUDIT?</h3>
-              <p className="text-zinc-500 text-sm">Discover your site's structural search integrity in 24 hours.</p>
+              <h3 className="font-syncopate text-xl text-white mb-2 uppercase">INITIATE TECHNICAL AUDIT</h3>
+              <p className="text-zinc-500 text-sm uppercase tracking-widest text-[10px]">Analyze your digital structural integrity in 24 hours.</p>
             </div>
             <button className="px-8 py-4 bg-white text-black font-bold uppercase text-xs tracking-widest hover:bg-blue-600 hover:text-white transition-all">
-              Request SEO Blueprint
+              Request Blueprint
             </button>
           </div>
         </div>

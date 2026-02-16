@@ -72,22 +72,22 @@ const ProjectShowcase: React.FC = () => {
     : PROJECTS.filter(p => p.category === activeFilter);
 
   return (
-    <section id="projects" ref={sectionRef} className="py-24 bg-zinc-950 scroll-mt-20">
+    <section id="projects" ref={sectionRef} className="py-24 bg-zinc-950 scroll-mt-20 overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-8">
-          <div>
-            <h2 className="font-syncopate text-4xl md:text-5xl font-bold text-white mb-4 uppercase">INDIAN SKYLINES</h2>
+          <div className="reveal">
+            <h2 className="font-syncopate text-4xl md:text-5xl font-bold text-white mb-4 uppercase leading-none tracking-tighter">INDIAN SKYLINES</h2>
             <p className="text-zinc-500 max-w-lg">Transforming major Indian business districts through precision-engineered facade systems.</p>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 reveal">
             {CATEGORIES.map(cat => (
               <button 
                 key={cat}
                 onClick={() => handleFilterChange(cat)}
-                className={`px-4 py-2 text-[10px] uppercase tracking-widest font-bold transition-all border ${
+                className={`px-4 py-2 text-[10px] uppercase tracking-widest font-bold transition-all border shadow-lg hover:shadow-blue-500/20 active:scale-95 ${
                   activeFilter === cat 
-                  ? 'border-blue-500 bg-blue-500 text-white shadow-[0_0_15px_rgba(59,130,246,0.3)]' 
-                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-white'
+                  ? 'border-blue-500 bg-blue-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.4)] scale-105' 
+                  : 'border-zinc-800 text-zinc-500 hover:border-zinc-600 hover:text-white bg-zinc-900/50 hover:-translate-y-1'
                 }`}
               >
                 {cat.replace(' Systems', '').replace(' Facade', '')}
@@ -97,29 +97,30 @@ const ProjectShowcase: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500">
-          {filteredProjects.map(project => (
+          {filteredProjects.map((project, idx) => (
             <div 
               key={project.id} 
-              className="group relative overflow-hidden aspect-[16/11] cursor-pointer bg-zinc-900 border border-zinc-800 animate-in fade-in zoom-in duration-500"
+              className={`group relative overflow-hidden aspect-[16/11] cursor-pointer bg-zinc-900 border border-zinc-800 transition-all duration-500 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] hover:z-10 hover:border-blue-500/50 reveal`}
+              style={{ transitionDelay: `${idx * 100}ms` }}
             >
               <img 
                 src={project.image} 
                 alt={project.title}
                 loading="lazy"
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-in-out"
+                className="w-full h-full object-cover grayscale opacity-60 group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-in-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
               
-              <div className="absolute bottom-0 left-0 p-8 transform group-hover:-translate-y-2 transition-transform duration-500">
+              <div className="absolute bottom-0 left-0 p-8 transform group-hover:-translate-y-4 transition-transform duration-500">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="w-6 h-[1px] bg-blue-500"></div>
+                  <div className="w-6 h-[1px] bg-blue-500 group-hover:w-12 transition-all duration-500"></div>
                   <span className="text-[10px] uppercase tracking-[0.3em] text-blue-400 font-bold block">{project.category}</span>
                 </div>
-                <h3 className="font-syncopate text-xl font-bold text-white mb-1 uppercase tracking-tighter">{project.title}</h3>
+                <h3 className="font-syncopate text-xl font-bold text-white mb-1 uppercase tracking-tighter shadow-black drop-shadow-lg">{project.title}</h3>
                 <p className="text-zinc-400 text-[10px] uppercase tracking-widest">{project.location}</p>
               </div>
 
-              <div className="absolute top-8 right-8 w-12 h-12 glass-panel flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
+              <div className="absolute top-8 right-8 w-12 h-12 glass-panel flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0 shadow-2xl">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>

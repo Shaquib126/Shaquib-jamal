@@ -6,60 +6,69 @@ const SeoGuide: React.FC = () => {
     {
       step: "01",
       title: "Index Verification",
-      action: "Google Search Console",
-      details: "Submit your Netlify URL to Google Search Console to ensure every glass system page is indexed within 24 hours."
+      action: "Search Console",
+      details: "Apni website ko Google Search Console mein register karein. Sitemap file submit karne se Google aapke saare glass facade pages ko turant crawl karega."
     },
     {
       step: "02",
       title: "Local Authority",
-      action: "Google Business Profile",
-      details: "List 'Shaquib Shaikh Glass Systems' in Bangalore/Mumbai to appear in the 'Local Map Pack' for architecture queries."
+      action: "Google Maps",
+      details: "Shaquib Shaikh Facade Systems ko 'Google My Business' par list karein. Isse local architectural projects ke liye aapka rank top par aayega."
     },
     {
       step: "03",
-      title: "Semantic Schema",
-      action: "JSON-LD Markup",
-      details: "Adding structured data for 'LocalBusiness' and 'Product' (Glass Facades) helps Google show rich snippets like star ratings."
+      title: "Schema Integration",
+      action: "Technical SEO",
+      details: "Humne code mein JSON-LD architectural schema add kiya hai. Isse Google ko aapke systems (U-Value, SHGC) ki technical jaankari milti hai."
     },
     {
       step: "04",
-      title: "Content Engineering",
-      action: "Target Keywords",
-      details: "Focus on technical long-tail terms like 'U-Value optimized glass Chennai' or 'Unitized curtain wall engineering India'."
+      title: "Content Dominance",
+      action: "Keywords",
+      details: "Targeted keywords jaise 'Unitized Facade Bangalore' ya 'Glass engineering India' ka use karke organic search visibility badhayein."
     }
   ];
 
   return (
     <section id="visibility-guide" className="py-32 bg-zinc-950 relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <img 
+          src="https://images.unsplash.com/photo-1590644365607-1c5a519a7a37?auto=format&fit=crop&q=80&w=2000" 
+          className="w-full h-full object-cover grayscale" 
+          alt="Architectural Pattern"
+        />
+        <div className="absolute inset-0 bg-zinc-950/80"></div>
+      </div>
+      
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-blue-900/50 to-transparent"></div>
       
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col lg:flex-row gap-20">
-          <div className="lg:w-1/3">
+          <div className="lg:w-1/3 reveal">
             <h2 className="font-syncopate text-4xl font-bold text-white mb-8 tracking-tighter leading-tight">
-              DIGITAL <br />
-              <span className="text-blue-500">VISIBILITY</span> <br />
-              BLUEPRINT
+              GOOGLE <br />
+              <span className="text-blue-500">RANKING</span> <br />
+              PROTOCOL
             </h2>
             <p className="text-zinc-500 text-sm leading-relaxed mb-10 uppercase tracking-widest">
-              A comprehensive guide to ensuring your architectural portfolio dominates global and local search ecosystems.
+              Apni website ko Google Search me laane ke liye ye steps follow karein. Humne structural SEO ko aapke code base mein inject kar diya hai.
             </p>
-            <div className="p-6 glass-panel border-blue-500/20 bg-blue-500/5">
-              <p className="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em] mb-4">Pro Tip</p>
+            <div className="p-6 glass-panel border-blue-500/20 bg-blue-500/5 interactive-shadow">
+              <p className="text-[10px] text-blue-400 font-bold uppercase tracking-[0.3em] mb-4">Indexing Status</p>
               <p className="text-zinc-400 text-xs leading-loose italic">
-                "High-performance facades deserve high-performance search rankings. Structural integrity begins with technical SEO."
+                "Google visibility ke liye hum sitemap.xml aur robots.txt ko optimize kar rahe hain taaki architectural firms aapko turant dhoondh sakein."
               </p>
             </div>
           </div>
 
           <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8">
             {roadmap.map((item, idx) => (
-              <div key={idx} className="group p-8 border border-zinc-900 bg-zinc-900/50 hover:border-blue-500/30 transition-all duration-500">
+              <div key={idx} className="group p-8 border border-zinc-900 bg-zinc-900/50 hover:border-blue-500/30 transition-all duration-500 glass-panel reveal" style={{ transitionDelay: `${idx * 150}ms` }}>
                 <div className="flex justify-between items-start mb-10">
-                  <span className="font-syncopate text-3xl font-bold text-zinc-800 group-hover:text-blue-500/20 transition-colors">
+                  <span className="font-syncopate text-3xl font-bold text-zinc-800 group-hover:text-blue-500 transition-colors">
                     {item.step}
                   </span>
-                  <div className="px-3 py-1 bg-zinc-800 text-[8px] text-zinc-400 font-bold uppercase tracking-widest">
+                  <div className="px-3 py-1 bg-zinc-800 text-[8px] text-zinc-400 font-bold uppercase tracking-widest group-hover:bg-blue-600 group-hover:text-white transition-all">
                     {item.action}
                   </div>
                 </div>

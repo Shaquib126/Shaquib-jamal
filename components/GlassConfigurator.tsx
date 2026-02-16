@@ -77,33 +77,33 @@ const GlassConfigurator: React.FC = () => {
   };
 
   return (
-    <section id="configurator" className="py-20 md:py-32 relative overflow-hidden bg-slate-50 dark:bg-transparent">
+    <section id="configurator" className="py-20 md:py-32 relative overflow-hidden bg-slate-50 dark:bg-transparent reveal">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
           <div className="w-full lg:w-1/2 flex flex-col items-center">
-            <h3 className="font-syncopate text-2xl md:text-3xl font-bold mb-8 md:mb-12 self-start tracking-tighter text-slate-900 dark:text-white">SYSTEM VISUALIZER</h3>
+            <h3 className="font-syncopate text-2xl md:text-3xl font-bold mb-8 md:mb-12 self-start tracking-tighter text-slate-900 dark:text-white leading-none">SYSTEM VISUALIZER</h3>
             
-            <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center p-4">
+            <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center p-4 group">
               <div 
-                className="w-full h-full max-w-[280px] max-h-[350px] relative preserve-3d transition-transform duration-500 ease-out"
+                className="w-full h-full max-w-[280px] max-h-[350px] relative preserve-3d transition-transform duration-700 ease-out cursor-pointer"
                 style={{ transform: `rotateY(${rotation}deg) rotateX(10deg)` }}
                 onMouseMove={handleMouseMove}
                 onTouchMove={handleTouchMove}
               >
                 {/* Glass Pane */}
                 <div 
-                  className="absolute inset-0 glass-panel shadow-[0_0_50px_rgba(59,130,246,0.15)] transition-colors duration-700 rounded-lg overflow-hidden" 
+                  className="absolute inset-0 glass-panel shadow-[0_0_50px_rgba(59,130,246,0.15)] transition-all duration-700 rounded-lg overflow-hidden group-hover:shadow-[0_0_80px_rgba(59,130,246,0.3)] group-hover:scale-105" 
                   style={{ backgroundColor: selected.color }}
                 >
                   <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_30%,white,transparent)]"></div>
                   <div className="absolute inset-0 opacity-10 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] animate-[shine_3s_infinite]"></div>
                 </div>
                 {/* Edges */}
-                <div className="absolute right-0 top-0 w-3 h-full bg-slate-300 dark:bg-zinc-800 origin-right transform rotateY(90deg)"></div>
-                <div className="absolute left-0 bottom-0 h-3 w-full bg-slate-400 dark:bg-zinc-700 origin-bottom transform rotateX(90deg)"></div>
+                <div className="absolute right-0 top-0 w-3 h-full bg-slate-300 dark:bg-zinc-800 origin-right transform rotateY(90deg) shadow-inner"></div>
+                <div className="absolute left-0 bottom-0 h-3 w-full bg-slate-400 dark:bg-zinc-700 origin-bottom transform rotateX(90deg) shadow-inner"></div>
               </div>
               
-              <div className="absolute bottom-0 w-full h-1/3 bg-gradient-to-t from-blue-500/10 to-transparent blur-3xl opacity-50"></div>
+              <div className="absolute bottom-0 w-full h-1/3 bg-gradient-to-t from-blue-500/10 to-transparent blur-3xl opacity-50 group-hover:opacity-80 transition-opacity"></div>
             </div>
           </div>
 
@@ -113,39 +113,42 @@ const GlassConfigurator: React.FC = () => {
                 <button 
                   key={spec.id}
                   onClick={() => setSelected(spec)}
-                  className={`p-4 text-left transition-all duration-300 border rounded-sm ${
+                  className={`p-4 text-left transition-all duration-300 border rounded-sm group interactive-shadow ${
                     selected.id === spec.id 
-                    ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)]' 
+                    ? 'border-blue-500 bg-blue-500/10 shadow-[0_10px_20px_rgba(59,130,246,0.15)] ring-1 ring-blue-500/20' 
                     : 'border-slate-200 dark:border-zinc-800 hover:border-blue-500/50 bg-white/50 dark:bg-transparent'
                   }`}
                 >
                   <div className="flex justify-between items-center gap-2">
-                    <span className="font-syncopate text-[9px] md:text-[10px] tracking-widest text-slate-800 dark:text-zinc-300 leading-tight uppercase">{spec.name}</span>
-                    <span className={`flex-shrink-0 w-1.5 h-1.5 rounded-full ${selected.id === spec.id ? 'bg-blue-500' : 'bg-slate-300 dark:bg-zinc-700'}`}></span>
+                    <span className="font-syncopate text-[9px] md:text-[10px] tracking-widest text-slate-800 dark:text-zinc-300 leading-tight uppercase group-hover:text-blue-500">{spec.name}</span>
+                    <span className={`flex-shrink-0 w-1.5 h-1.5 rounded-full transition-all duration-300 ${selected.id === spec.id ? 'bg-blue-500 scale-125' : 'bg-slate-300 dark:bg-zinc-700'}`}></span>
                   </div>
                 </button>
               ))}
             </div>
 
-            <div className="glass-panel p-6 md:p-8 rounded-xl">
-              <div className="grid grid-cols-3 gap-4 md:gap-8 mb-6 md:mb-8 text-center md:text-left">
+            <div className="glass-panel p-6 md:p-8 rounded-xl shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+                <svg viewBox="0 0 100 100" className="w-24 h-24 fill-blue-500"><path d="M0 0h100v100H0z"/></svg>
+              </div>
+              <div className="grid grid-cols-3 gap-4 md:gap-8 mb-6 md:mb-8 text-center md:text-left relative z-10">
                 <div>
-                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">U-Value</p>
-                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white">{selected.uValue}</p>
+                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1 font-bold">U-Value</p>
+                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white transition-all hover:text-blue-500">{selected.uValue}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">SHGC</p>
-                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white">{selected.shgc}</p>
+                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1 font-bold">SHGC</p>
+                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white transition-all hover:text-blue-500">{selected.shgc}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">VLT</p>
-                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white">{selected.vlt}%</p>
+                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1 font-bold">VLT</p>
+                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white transition-all hover:text-blue-500">{selected.vlt}%</p>
                 </div>
               </div>
-              <p className="text-slate-500 dark:text-zinc-400 text-xs md:text-sm leading-relaxed border-t border-slate-200 dark:border-zinc-800 pt-6">
+              <p className="text-slate-500 dark:text-zinc-400 text-xs md:text-sm leading-relaxed border-t border-slate-200 dark:border-zinc-800 pt-6 relative z-10">
                 {selected.description}
               </p>
-              <button className="mt-8 w-full py-4 bg-slate-900 dark:bg-transparent border border-slate-800 dark:border-zinc-700 hover:border-blue-500 hover:text-blue-500 text-white dark:text-zinc-400 text-[9px] uppercase tracking-[0.3em] font-bold transition-all">
+              <button className="mt-8 w-full py-4 bg-slate-900 dark:bg-transparent border border-slate-800 dark:border-zinc-700 hover:border-blue-500 hover:text-blue-500 hover:bg-blue-500/5 text-white dark:text-zinc-400 text-[9px] uppercase tracking-[0.3em] font-bold transition-all shadow-lg active:scale-95 relative z-10">
                 Download Technical Datasheet
               </button>
             </div>

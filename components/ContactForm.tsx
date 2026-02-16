@@ -80,36 +80,43 @@ const ContactForm: React.FC = () => {
   };
 
   const getInputClass = (field: keyof FormErrors) => {
-    const base = "w-full bg-zinc-900 border py-3 px-4 text-sm text-white transition-all outline-none focus:ring-1 ";
-    if (touched[field] && errors[field]) return base + "border-red-500/50 focus:border-red-500 ring-red-500/20";
-    if (touched[field] && !errors[field] && values[field as keyof FormState]) return base + "border-green-500/50 focus:border-green-500 ring-green-500/20";
-    return base + "border-zinc-800 focus:border-blue-500 ring-blue-500/20";
+    const base = "w-full bg-zinc-900 border py-3 px-4 text-sm text-white transition-all duration-300 outline-none focus:ring-2 ";
+    if (touched[field] && errors[field]) return base + "border-red-500/50 focus:border-red-500 ring-red-500/10 shadow-[0_0_15px_rgba(239,68,68,0.1)]";
+    if (touched[field] && !errors[field] && values[field as keyof FormState]) return base + "border-green-500/50 focus:border-green-500 ring-green-500/10 shadow-[0_0_15px_rgba(34,197,94,0.1)]";
+    return base + "border-zinc-800 focus:border-blue-500 ring-blue-500/10 hover:border-zinc-700 focus:shadow-[0_0_20px_rgba(59,130,246,0.15)]";
   };
 
   return (
-    <section id="contact" className="py-24 bg-black relative">
-      <div className="container mx-auto px-6 max-w-4xl">
+    <section id="contact" className="py-24 bg-black relative reveal overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[1px] h-full bg-blue-500/30"></div>
+        <div className="absolute top-0 left-2/4 w-[1px] h-full bg-blue-500/30"></div>
+        <div className="absolute top-0 left-3/4 w-[1px] h-full bg-blue-500/30"></div>
+      </div>
+      <div className="container mx-auto px-6 max-w-4xl relative z-10">
         <div className="text-center mb-16">
-          <h2 className="font-syncopate text-3xl md:text-5xl font-bold mb-4 uppercase">CONSULTATION</h2>
-          <p className="text-zinc-500 uppercase tracking-widest text-[10px]">Technical design & engineering support</p>
+          <h2 className="font-syncopate text-3xl md:text-5xl font-bold mb-4 uppercase leading-none tracking-tighter">CONSULTATION</h2>
+          <p className="text-zinc-500 uppercase tracking-[0.4em] text-[10px] font-bold">Technical design & engineering support</p>
         </div>
 
-        <div className="glass-panel p-8 md:p-12 relative overflow-hidden">
+        <div className="glass-panel p-8 md:p-12 relative overflow-hidden shadow-2xl">
           {isSuccess && (
-            <div className="absolute inset-0 bg-green-500/90 z-20 flex flex-col items-center justify-center text-black text-center p-6 animate-in fade-in duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <h3 className="font-syncopate text-xl font-bold mb-2">REQUEST RECEIVED</h3>
-              <p className="font-medium">Our engineering team will contact you shortly.</p>
-              <button onClick={() => setIsSuccess(false)} className="mt-6 border-b border-black text-xs font-bold uppercase tracking-widest">Send another message</button>
+            <div className="absolute inset-0 bg-green-500/95 z-20 flex flex-col items-center justify-center text-black text-center p-6 animate-in fade-in duration-300">
+              <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mb-6 shadow-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="font-syncopate text-xl font-bold mb-2 uppercase">REQUEST RECEIVED</h3>
+              <p className="font-medium uppercase tracking-widest text-xs">Our engineering team will contact you shortly.</p>
+              <button onClick={() => setIsSuccess(false)} className="mt-8 border-b-2 border-black text-[10px] font-black uppercase tracking-[0.3em] hover:opacity-70 transition-opacity">Send another message</button>
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Full Name</label>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-black">Full Name</label>
                 <input 
                   type="text" 
                   name="name"
@@ -117,12 +124,12 @@ const ContactForm: React.FC = () => {
                   onChange={handleChange}
                   onBlur={() => handleBlur('name')}
                   className={getInputClass('name')}
-                  placeholder="John Doe"
+                  placeholder="Architectural Lead"
                 />
-                {touched.name && errors.name && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter">{errors.name}</p>}
+                {touched.name && errors.name && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter font-bold">{errors.name}</p>}
               </div>
-              <div className="space-y-1">
-                <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Email Address</label>
+              <div className="space-y-2">
+                <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-black">Email Address</label>
                 <input 
                   type="email" 
                   name="email"
@@ -130,14 +137,14 @@ const ContactForm: React.FC = () => {
                   onChange={handleChange}
                   onBlur={() => handleBlur('email')}
                   className={getInputClass('email')}
-                  placeholder="john@architecture.com"
+                  placeholder="lead@firm.com"
                 />
-                {touched.email && errors.email && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter">{errors.email}</p>}
+                {touched.email && errors.email && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter font-bold">{errors.email}</p>}
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">System Category</label>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-black">System Category</label>
               <select 
                 name="projectType"
                 value={values.projectType}
@@ -151,11 +158,11 @@ const ContactForm: React.FC = () => {
                 <option value="spider">Spider Fitting</option>
                 <option value="skylight">Skylight / Atrium</option>
               </select>
-              {touched.projectType && errors.projectType && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter">{errors.projectType}</p>}
+              {touched.projectType && errors.projectType && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter font-bold">{errors.projectType}</p>}
             </div>
 
-            <div className="space-y-1">
-              <label className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Project Details</label>
+            <div className="space-y-2">
+              <label className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 font-black">Project Details</label>
               <textarea 
                 name="message"
                 rows={4}
@@ -163,24 +170,24 @@ const ContactForm: React.FC = () => {
                 onChange={handleChange}
                 onBlur={() => handleBlur('message')}
                 className={getInputClass('message')}
-                placeholder="Briefly describe your requirements..."
+                placeholder="Technical specifications and project timeline..."
               ></textarea>
-              {touched.message && errors.message && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter">{errors.message}</p>}
+              {touched.message && errors.message && <p className="text-[10px] text-red-500 mt-1 uppercase tracking-tighter font-bold">{errors.message}</p>}
             </div>
 
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className={`w-full py-5 font-bold uppercase tracking-[0.3em] transition-all relative overflow-hidden ${
-                isSubmitting ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed' : 'bg-white text-black hover:bg-blue-600 hover:text-white'
+              className={`w-full py-6 font-black uppercase tracking-[0.4em] transition-all relative overflow-hidden shadow-2xl active:scale-[0.98] ${
+                isSubmitting ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed' : 'bg-white text-black hover:bg-blue-600 hover:text-white hover:shadow-blue-500/30'
               }`}
             >
               {isSubmitting ? (
-                <span className="flex items-center justify-center gap-2">
-                  <div className="w-3 h-3 border-2 border-zinc-500 border-t-white rounded-full animate-spin"></div>
-                  Validating...
+                <span className="flex items-center justify-center gap-3">
+                  <div className="w-4 h-4 border-2 border-zinc-500 border-t-white rounded-full animate-spin"></div>
+                  VALIDATING PROTOCOL...
                 </span>
-              ) : "Initialize Consultation"}
+              ) : "INITIALIZE CONSULTATION"}
             </button>
           </form>
         </div>
