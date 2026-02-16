@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import GlassConfigurator from './components/GlassConfigurator';
 import ProjectShowcase from './components/ProjectShowcase';
 import SeoServices from './components/SeoServices';
+import SeoGuide from './components/SeoGuide';
 import GeminiAssistant from './components/GeminiAssistant';
 import WhatsAppButton from './components/WhatsAppButton';
 import Logo3DViewer from './components/Logo3DViewer';
@@ -20,20 +21,41 @@ const App: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (isLoading) return;
+    
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    const revealElements = document.querySelectorAll('.reveal');
+    revealElements.forEach(el => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [isLoading]);
+
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-blue-500/30 selection:text-blue-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white selection:bg-blue-500/30 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-500">
       <Header />
       <PerformanceStats />
       
       <main className="relative">
         <Hero />
         
-        <section id="systems" className="py-32 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent"></div>
+        <section id="systems" className="py-20 md:py-32 relative overflow-hidden border-b border-slate-200 dark:border-zinc-900 reveal">
           <div className="container mx-auto px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
               {[
                 {
                   tag: '01',
@@ -55,14 +77,14 @@ const App: React.FC = () => {
                 }
               ].map((item, idx) => (
                 <div key={idx} className="group cursor-default">
-                  <div className="flex items-center gap-4 mb-8">
-                    <span className="font-syncopate text-[10px] text-zinc-600 font-bold">{item.tag}</span>
-                    <div className={`h-[1px] flex-1 ${item.accent} opacity-30 group-hover:opacity-100 transition-opacity`}></div>
+                  <div className="flex items-center gap-4 mb-6 md:mb-8">
+                    <span className="font-syncopate text-[10px] text-slate-400 dark:text-zinc-600 font-bold">{item.tag}</span>
+                    <div className={`h-[1px] flex-1 ${item.accent} opacity-10 dark:opacity-30 group-hover:opacity-100 transition-opacity`}></div>
                   </div>
-                  <h3 className="font-syncopate text-2xl font-bold uppercase tracking-tighter mb-6 leading-tight group-hover:text-blue-400 transition-colors">
+                  <h3 className="font-syncopate text-xl md:text-2xl font-bold uppercase tracking-tighter mb-4 md:mb-6 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed max-w-xs">
+                  <p className="text-slate-500 dark:text-zinc-500 text-sm leading-relaxed max-w-xs">
                     {item.desc}
                   </p>
                 </div>
@@ -71,35 +93,36 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        <ProjectShowcase />
-        <SeoServices />
-        <GlassConfigurator />
-        <ContactForm />
+        <div className="reveal"><ProjectShowcase /></div>
+        <div className="reveal"><SeoServices /></div>
+        <div className="reveal"><SeoGuide /></div>
+        <div className="reveal"><GlassConfigurator /></div>
+        <div className="reveal"><ContactForm /></div>
 
-        <section id="brand-view" className="py-32 relative overflow-hidden bg-white text-black">
+        <section id="brand-view" className="py-20 md:py-32 relative overflow-hidden bg-slate-100 dark:bg-white text-black transition-colors duration-500 reveal">
           <div className="container mx-auto px-6">
-            <div className="grid lg:grid-cols-2 gap-20 items-center">
-              <div className="relative z-10">
+            <div className="grid lg:grid-cols-2 gap-12 md:gap-20 items-center">
+              <div className="relative z-10 order-2 lg:order-1">
                 <p className="text-[10px] uppercase tracking-[0.6em] mb-6 text-blue-600 font-black">Identity Matrix</p>
-                <h2 className="font-syncopate text-5xl md:text-7xl font-bold mb-10 uppercase leading-[0.9] tracking-tighter">
-                  BUILT FOR <br/><span className="text-zinc-300">DEPTH</span>
+                <h2 className="font-syncopate text-4xl md:text-7xl font-bold mb-8 md:mb-10 uppercase leading-[0.9] tracking-tighter">
+                  BUILT FOR <br/><span className="text-slate-400 dark:text-zinc-300">DEPTH</span>
                 </h2>
-                <p className="text-zinc-600 text-lg mb-12 leading-relaxed max-w-md">
+                <p className="text-slate-600 dark:text-zinc-600 text-base md:text-lg mb-8 md:mb-12 leading-relaxed max-w-md">
                   Our identity is a structural manifesto. Every angle, shadow, and refraction is calculated to reflect our commitment to architectural precision.
                 </p>
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="p-6 border border-zinc-100 bg-zinc-50/50">
-                    <p className="text-[9px] uppercase font-bold text-zinc-400 mb-2 tracking-widest">Dimension</p>
-                    <p className="font-syncopate text-lg">AXONOMETRIC</p>
+                <div className="grid grid-cols-2 gap-4 md:gap-8">
+                  <div className="p-4 md:p-6 border border-slate-200 dark:border-zinc-100 bg-white/50">
+                    <p className="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Dimension</p>
+                    <p className="font-syncopate text-sm md:text-lg">AXONOMETRIC</p>
                   </div>
-                  <div className="p-6 border border-zinc-100 bg-zinc-50/50">
-                    <p className="text-[9px] uppercase font-bold text-zinc-400 mb-2 tracking-widest">Stability</p>
-                    <p className="font-syncopate text-lg">REINFORCED</p>
+                  <div className="p-4 md:p-6 border border-slate-200 dark:border-zinc-100 bg-white/50">
+                    <p className="text-[9px] uppercase font-bold text-slate-400 mb-2 tracking-widest">Stability</p>
+                    <p className="font-syncopate text-sm md:text-lg">REINFORCED</p>
                   </div>
                 </div>
               </div>
               
-              <div className="relative p-4 bg-zinc-50 rounded-3xl border border-zinc-100 shadow-2xl">
+              <div className="relative p-2 md:p-4 bg-white rounded-3xl border border-slate-200 shadow-2xl order-1 lg:order-2">
                 <Logo3DViewer />
               </div>
             </div>
@@ -107,31 +130,31 @@ const App: React.FC = () => {
         </section>
       </main>
 
-      <footer className="py-32 bg-black border-t border-zinc-900 relative">
+      <footer className="py-20 md:py-32 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-zinc-900 relative transition-colors duration-500">
         <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-20 mb-24">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-20 mb-16 md:mb-24">
             <div className="max-w-sm">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-blue-600 rounded-sm flex items-center justify-center font-syncopate text-2xl font-bold text-white shadow-xl">S</div>
-                <h1 className="font-syncopate text-xl text-white tracking-widest">SHAQUIB SHAIKH</h1>
+              <div className="flex items-center gap-4 mb-6 md:mb-8">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-blue-600 rounded-sm flex items-center justify-center font-syncopate text-xl md:text-2xl font-bold text-white shadow-xl">S</div>
+                <h1 className="font-syncopate text-lg md:text-xl text-slate-900 dark:text-white tracking-widest leading-none">SHAQUIB SHAIKH</h1>
               </div>
-              <p className="text-zinc-500 text-xs leading-loose uppercase tracking-[0.2em]">
+              <p className="text-slate-500 dark:text-zinc-500 text-[10px] md:text-xs leading-loose uppercase tracking-[0.2em]">
                 Engineers of transparency. Crafting the global standard for high-performance building envelopes.
               </p>
             </div>
             
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-16">
-              <div className="space-y-6">
-                <h4 className="font-syncopate text-[10px] font-bold text-blue-500 tracking-[0.3em] uppercase">Engineering</h4>
-                <ul className="text-zinc-600 text-[10px] space-y-3 uppercase tracking-[0.2em]">
-                  <li><a href="#systems" className="hover:text-white transition-colors">Calculations</a></li>
-                  <li><a href="#configurator" className="hover:text-white transition-colors">Simulation</a></li>
-                  <li><a href="#projects" className="hover:text-white transition-colors">Indian States</a></li>
+            <div className="grid grid-cols-2 gap-12 md:gap-16 w-full md:w-auto">
+              <div className="space-y-4 md:space-y-6">
+                <h4 className="font-syncopate text-[9px] md:text-[10px] font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase">Engineering</h4>
+                <ul className="text-slate-500 dark:text-zinc-600 text-[9px] md:text-[10px] space-y-3 uppercase tracking-[0.2em]">
+                  <li><a href="#systems" className="hover:text-blue-600 dark:hover:text-white transition-colors">Calculations</a></li>
+                  <li><a href="#configurator" className="hover:text-blue-600 dark:hover:text-white transition-colors">Simulation</a></li>
+                  <li><a href="#projects" className="hover:text-blue-600 dark:hover:text-white transition-colors">Indian States</a></li>
                 </ul>
               </div>
-              <div className="space-y-6">
-                <h4 className="font-syncopate text-[10px] font-bold text-blue-500 tracking-[0.3em] uppercase">Contact</h4>
-                <ul className="text-zinc-600 text-[10px] space-y-3 uppercase tracking-[0.2em]">
+              <div className="space-y-4 md:space-y-6">
+                <h4 className="font-syncopate text-[9px] md:text-[10px] font-bold text-blue-600 dark:text-blue-500 tracking-[0.3em] uppercase">Contact</h4>
+                <ul className="text-slate-500 dark:text-zinc-600 text-[9px] md:text-[10px] space-y-3 uppercase tracking-[0.2em]">
                   <li>Inquiry@Shaquib.com</li>
                   <li>+91 88816 50067</li>
                   <li>Bangalore, KA</li>
@@ -140,11 +163,11 @@ const App: React.FC = () => {
             </div>
           </div>
           
-          <div className="pt-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="text-zinc-700 text-[9px] uppercase tracking-[0.4em]">© 2024 SHAQUIB SHAIKH FACADE SYSTEMS. OPTIMIZED FOR 3D RENDERING.</p>
-            <div className="flex gap-10 text-zinc-700 text-[9px] uppercase tracking-[0.4em]">
-              <a href="#" className="hover:text-white transition-colors">System Protocol</a>
-              <a href="#" className="hover:text-white transition-colors">Technical Privacy</a>
+          <div className="pt-8 md:pt-12 border-t border-slate-200 dark:border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+            <p className="text-slate-400 dark:text-zinc-700 text-[8px] md:text-[9px] uppercase tracking-[0.4em]">© 2024 SHAQUIB SHAIKH FACADE SYSTEMS. OPTIMIZED FOR MOBILE VIEW.</p>
+            <div className="flex gap-6 md:gap-10 text-slate-400 dark:text-zinc-700 text-[8px] md:text-[9px] uppercase tracking-[0.4em]">
+              <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">System Protocol</a>
+              <a href="#" className="hover:text-slate-900 dark:hover:text-white transition-colors">Technical Privacy</a>
             </div>
           </div>
         </div>

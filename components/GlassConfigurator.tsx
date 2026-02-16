@@ -63,86 +63,106 @@ const GlassConfigurator: React.FC = () => {
   const [selected, setSelected] = useState<GlassSpec>(SPECS[0]);
   const [rotation, setRotation] = useState(25);
 
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 40 - 20;
+    setRotation(x + 25);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = ((touch.clientX - rect.left) / rect.width) * 40 - 20;
+    setRotation(x + 25);
+  };
+
   return (
-    <section id="configurator" className="py-24 relative overflow-hidden">
+    <section id="configurator" className="py-20 md:py-32 relative overflow-hidden bg-slate-50 dark:bg-transparent">
       <div className="container mx-auto px-6">
-        <div className="flex flex-col lg:flex-row gap-16 items-center">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
           <div className="w-full lg:w-1/2 flex flex-col items-center">
-            <h3 className="font-syncopate text-3xl font-bold mb-12 self-start tracking-tighter">SYSTEM VISUALIZER</h3>
-            <div className="relative w-full aspect-square max-w-[500px] flex items-center justify-center">
+            <h3 className="font-syncopate text-2xl md:text-3xl font-bold mb-8 md:mb-12 self-start tracking-tighter text-slate-900 dark:text-white">SYSTEM VISUALIZER</h3>
+            
+            <div className="relative w-full aspect-square max-w-[450px] flex items-center justify-center p-4">
               <div 
-                className="w-80 h-96 relative preserve-3d transition-transform duration-1000 ease-out"
+                className="w-full h-full max-w-[280px] max-h-[350px] relative preserve-3d transition-transform duration-500 ease-out"
                 style={{ transform: `rotateY(${rotation}deg) rotateX(10deg)` }}
-                onMouseMove={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = ((e.clientX - rect.left) / rect.width) * 40 - 20;
-                  setRotation(x + 25);
-                }}
+                onMouseMove={handleMouseMove}
+                onTouchMove={handleTouchMove}
               >
+                {/* Glass Pane */}
                 <div 
-                  className="absolute inset-0 glass-panel shadow-[0_0_50px_rgba(0,100,255,0.2)] transition-colors duration-500" 
+                  className="absolute inset-0 glass-panel shadow-[0_0_50px_rgba(59,130,246,0.15)] transition-colors duration-700 rounded-lg overflow-hidden" 
                   style={{ backgroundColor: selected.color }}
                 >
-                  <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_30%,white,transparent)]"></div>
+                  <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle_at_30%_30%,white,transparent)]"></div>
+                  <div className="absolute inset-0 opacity-10 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] animate-[shine_3s_infinite]"></div>
                 </div>
-                <div className="absolute right-0 top-0 w-4 h-full bg-zinc-800 origin-right transform rotateY(90deg)"></div>
-                <div className="absolute left-0 bottom-0 h-4 w-full bg-zinc-700 origin-bottom transform rotateX(90deg)"></div>
+                {/* Edges */}
+                <div className="absolute right-0 top-0 w-3 h-full bg-slate-300 dark:bg-zinc-800 origin-right transform rotateY(90deg)"></div>
+                <div className="absolute left-0 bottom-0 h-3 w-full bg-slate-400 dark:bg-zinc-700 origin-bottom transform rotateX(90deg)"></div>
               </div>
-              <div className="absolute bottom-0 w-full h-1/4 bg-gradient-to-t from-blue-500/10 to-transparent blur-3xl opacity-50"></div>
+              
+              <div className="absolute bottom-0 w-full h-1/3 bg-gradient-to-t from-blue-500/10 to-transparent blur-3xl opacity-50"></div>
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2">
-            <div className="space-y-3 mb-10 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+          <div className="w-full lg:w-1/2 space-y-8">
+            <div className="grid grid-cols-2 gap-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar p-1">
               {SPECS.map(spec => (
                 <button 
                   key={spec.id}
                   onClick={() => setSelected(spec)}
-                  className={`w-full p-5 text-left transition-all duration-300 border ${selected.id === spec.id ? 'border-blue-500 bg-blue-500/10' : 'border-zinc-800 hover:border-zinc-700'}`}
+                  className={`p-4 text-left transition-all duration-300 border rounded-sm ${
+                    selected.id === spec.id 
+                    ? 'border-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.05)]' 
+                    : 'border-slate-200 dark:border-zinc-800 hover:border-blue-500/50 bg-white/50 dark:bg-transparent'
+                  }`}
                 >
-                  <div className="flex justify-between items-center">
-                    <span className="font-syncopate text-sm tracking-widest">{spec.name}</span>
-                    <span className={`w-2 h-2 rounded-full ${selected.id === spec.id ? 'bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' : 'bg-zinc-700'}`}></span>
+                  <div className="flex justify-between items-center gap-2">
+                    <span className="font-syncopate text-[9px] md:text-[10px] tracking-widest text-slate-800 dark:text-zinc-300 leading-tight uppercase">{spec.name}</span>
+                    <span className={`flex-shrink-0 w-1.5 h-1.5 rounded-full ${selected.id === spec.id ? 'bg-blue-500' : 'bg-slate-300 dark:bg-zinc-700'}`}></span>
                   </div>
                 </button>
               ))}
             </div>
 
-            <div className="glass-panel p-8">
-              <div className="grid grid-cols-3 gap-8 mb-8">
+            <div className="glass-panel p-6 md:p-8 rounded-xl">
+              <div className="grid grid-cols-3 gap-4 md:gap-8 mb-6 md:mb-8 text-center md:text-left">
                 <div>
-                  <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">U-Value</p>
-                  <p className="text-2xl font-syncopate text-white">{selected.uValue}</p>
+                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">U-Value</p>
+                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white">{selected.uValue}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">SHGC</p>
-                  <p className="text-2xl font-syncopate text-white">{selected.shgc}</p>
+                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">SHGC</p>
+                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white">{selected.shgc}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">VLT</p>
-                  <p className="text-2xl font-syncopate text-white">{selected.vlt}%</p>
+                  <p className="text-[9px] text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-1">VLT</p>
+                  <p className="text-xl md:text-2xl font-syncopate text-slate-900 dark:text-white">{selected.vlt}%</p>
                 </div>
               </div>
-              <p className="text-zinc-400 text-sm leading-relaxed border-t border-zinc-800 pt-6">
+              <p className="text-slate-500 dark:text-zinc-400 text-xs md:text-sm leading-relaxed border-t border-slate-200 dark:border-zinc-800 pt-6">
                 {selected.description}
               </p>
-              <button className="mt-8 w-full py-4 border border-zinc-700 hover:border-blue-500 text-[10px] uppercase tracking-[0.3em] font-bold transition-all">
-                Download Technical Data Sheet
+              <button className="mt-8 w-full py-4 bg-slate-900 dark:bg-transparent border border-slate-800 dark:border-zinc-700 hover:border-blue-500 hover:text-blue-500 text-white dark:text-zinc-400 text-[9px] uppercase tracking-[0.3em] font-bold transition-all">
+                Download Technical Datasheet
               </button>
             </div>
           </div>
         </div>
       </div>
       <style>{`
+        @keyframes shine {
+          0% { transform: translateX(-100%) rotate(45deg); }
+          100% { transform: translateX(200%) rotate(45deg); }
+        }
         .custom-scrollbar::-webkit-scrollbar {
           width: 4px;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: rgba(255,255,255,0.05);
-        }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #333;
-          border-radius: 2px;
+          background: #3b82f6;
+          border-radius: 10px;
         }
       `}</style>
     </section>
