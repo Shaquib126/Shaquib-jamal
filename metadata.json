@@ -1,0 +1,8 @@
+{
+  "name": "Shaquib Shaikh Facade Systems",
+  "description": "Professional architectural glass facade engineering and digital search architecture solutions.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
