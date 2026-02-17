@@ -15,6 +15,7 @@ export interface Project {
   location: string;
   image: string;
   category: string;
+  description?: string;
 }
 
 export enum FacadeType {

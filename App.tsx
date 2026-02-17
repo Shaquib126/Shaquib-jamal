@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 import Hero from './components/Hero';
 import GlassConfigurator from './components/GlassConfigurator';
 import ProjectShowcase from './components/ProjectShowcase';
@@ -11,6 +12,7 @@ import WhatsAppButton from './components/WhatsAppButton';
 import ContactForm from './components/ContactForm';
 import LoadingScreen from './components/LoadingScreen';
 import PerformanceStats from './components/PerformanceStats';
+import Logo3DViewer from './components/Logo3DViewer';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,20 +49,26 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#050505] text-slate-900 dark:text-white selection:bg-blue-500/30 selection:text-blue-900 dark:selection:text-blue-200 transition-colors duration-500">
       <Header />
+      <Sidebar />
       <PerformanceStats />
       
-      <main className="relative">
+      <main className="relative lg:pl-24 transition-all duration-500">
         <Hero />
         
         <section id="systems" className="py-20 md:py-32 relative overflow-hidden border-b border-slate-200 dark:border-zinc-900 reveal">
-          <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            {/* Clear View Detailed Facade Image */}
             <img 
-              src="https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&q=80&w=2000" 
+              src="https://images.unsplash.com/photo-1524312644410-b2512ee339e0?auto=format&fit=crop&q=80&w=2000" 
               className="w-full h-full object-cover" 
-              alt="Background pattern"
+              alt="Detailed Crystal Glass Facade"
             />
           </div>
           <div className="container mx-auto px-6 relative z-10">
+            <div className="mb-12">
+              <p className="text-[10px] text-blue-500 font-bold uppercase tracking-[0.4em] mb-2">ACP Cladding & Technical Insight</p>
+              <h3 className="text-3xl font-syncopate font-bold uppercase tracking-tighter">Advanced Enclosure Systems</h3>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
               {[
                 {
@@ -90,7 +98,7 @@ const App: React.FC = () => {
                   <h3 className="font-syncopate text-xl md:text-2xl font-bold uppercase tracking-tighter mb-4 md:mb-6 leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-slate-500 dark:text-zinc-500 text-sm leading-relaxed max-w-xs">
+                  <p className="text-slate-600 dark:text-zinc-400 text-sm leading-relaxed max-w-xs font-medium">
                     {item.desc}
                   </p>
                 </div>
@@ -100,37 +108,41 @@ const App: React.FC = () => {
         </section>
 
         <div className="reveal"><ProjectShowcase /></div>
+        
         <div className="reveal"><SeoServices /></div>
         <div className="reveal"><SeoGuide /></div>
         
-        {/* New Manifest Section replacing 360 View */}
         <section id="manifesto" className="relative py-32 md:py-48 overflow-hidden reveal">
           <div className="absolute inset-0 z-0">
             <img 
-              src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=2000" 
-              className="w-full h-full object-cover grayscale opacity-20 dark:opacity-40"
-              alt="Glass Facade Detail"
+              src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?auto=format&fit=crop&q=80&w=2000" 
+              className="w-full h-full object-cover opacity-30 dark:opacity-50"
+              alt="Modern Business District Skyline"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-[#050505] via-transparent to-slate-50 dark:to-[#050505]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-[#050505] via-transparent to-slate-50/80 dark:to-[#050505]/80"></div>
           </div>
           
           <div className="container mx-auto px-6 relative z-10 text-center">
-            <p className="text-[10px] uppercase tracking-[0.6em] mb-6 text-blue-600 font-black">Design Principles</p>
-            <h2 className="font-syncopate text-4xl md:text-7xl font-bold mb-10 uppercase leading-[0.9] tracking-tighter">
+            <div className="mb-20 max-w-4xl mx-auto">
+              <Logo3DViewer />
+            </div>
+            
+            <p className="text-[10px] uppercase tracking-[0.6em] mb-6 text-blue-600 font-black">About Engineering & Architectural Excellence</p>
+            <h2 className="font-syncopate text-4xl md:text-7xl font-bold mb-10 uppercase leading-[0.9] tracking-tighter text-slate-900 dark:text-white">
               CRAFTING THE <br/><span className="text-blue-600 dark:text-blue-500">INVISIBLE</span> BORDER
             </h2>
-            <p className="text-slate-600 dark:text-zinc-400 text-base md:text-xl mb-12 leading-relaxed max-w-3xl mx-auto">
-              Our facades are more than just glass and aluminum; they are high-performance skins that breathe, protect, and redefine the human experience within the urban landscape.
+            <p className="text-slate-800 dark:text-zinc-200 text-base md:text-xl mb-12 leading-relaxed max-w-3xl mx-auto font-medium">
+              Our facades are more than just glass and aluminum; they are high-performance skins that breathe, protect, and redefine the human experience within the modern skyline.
             </p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-12">
-              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/20">
-                <p className="font-syncopate text-sm md:text-lg">PRECISION</p>
+              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/30 interactive-shadow bg-white/10">
+                <p className="font-syncopate text-sm md:text-lg text-slate-900 dark:text-white">CRYSTAL PRECISION</p>
               </div>
-              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/20">
-                <p className="font-syncopate text-sm md:text-lg">DURABILITY</p>
+              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/30 interactive-shadow bg-white/10">
+                <p className="font-syncopate text-sm md:text-lg text-slate-900 dark:text-white">EXTREME DURABILITY</p>
               </div>
-              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/20">
-                <p className="font-syncopate text-sm md:text-lg">EFFICIENCY</p>
+              <div className="glass-panel px-8 py-4 rounded-sm border-blue-500/30 interactive-shadow bg-white/10">
+                <p className="font-syncopate text-sm md:text-lg text-slate-900 dark:text-white">SOLAR EFFICIENCY</p>
               </div>
             </div>
           </div>
@@ -140,7 +152,7 @@ const App: React.FC = () => {
         <div className="reveal"><ContactForm /></div>
       </main>
 
-      <footer className="py-20 md:py-32 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-zinc-900 relative transition-colors duration-500">
+      <footer className="py-20 md:py-32 bg-slate-50 dark:bg-black border-t border-slate-200 dark:border-zinc-900 relative transition-colors duration-500 lg:pl-24">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-20 mb-16 md:mb-24">
             <div className="max-w-sm">

@@ -40,6 +40,15 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMenuOpen]);
+
   const handleLogoHover = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 40;
@@ -49,7 +58,7 @@ const Header: React.FC = () => {
 
   const resetLogo = () => setLogoRotation({ x: 0, y: 0 });
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement>, id: string) => {
     e.preventDefault();
     setIsMenuOpen(false);
     const element = document.getElementById(id);
@@ -75,11 +84,11 @@ const Header: React.FC = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 w-full z-[70] transition-all duration-500 ${isScrolled || isMenuOpen ? 'py-4 glass-panel shadow-2xl' : 'py-8 bg-transparent'}`}>
+      <nav className={`fixed top-0 left-0 w-full z-[80] transition-all duration-500 ${isScrolled || isMenuOpen ? 'py-4 glass-panel shadow-2xl' : 'py-8 bg-transparent'}`}>
         <div className="container mx-auto px-6 flex justify-between items-center">
           <div 
             className="flex items-center gap-3 cursor-pointer group perspective-[500px]" 
-            onClick={(e) => scrollToSection(e as any, 'home')}
+            onClick={(e) => scrollToSection(e, 'home')}
             onMouseMove={handleLogoHover}
             onMouseLeave={resetLogo}
           >
@@ -93,8 +102,8 @@ const Header: React.FC = () => {
               S
             </div>
             <div>
-              <h1 className="font-syncopate text-lg leading-none tracking-wider group-hover:text-blue-500 transition-colors text-slate-900 dark:text-white">SHAQUIB SHAIKH</h1>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold group-hover:tracking-[0.3em] transition-all">Facade Engineering</p>
+              <h1 className="font-syncopate text-sm md:text-lg leading-none tracking-wider group-hover:text-blue-500 transition-colors text-slate-900 dark:text-white">SHAQUIB SHAIKH</h1>
+              <p className="text-[8px] md:text-[10px] uppercase tracking-[0.2em] text-blue-400 font-bold group-hover:tracking-[0.3em] transition-all">Facade Engineering</p>
             </div>
           </div>
           
@@ -130,7 +139,10 @@ const Header: React.FC = () => {
             </button>
 
             <button 
-              onClick={() => scrollToSection({ preventDefault: () => {} } as any, 'contact')}
+              onClick={() => {
+                const element = document.getElementById('contact');
+                if (element) element.scrollIntoView({ behavior: 'smooth' });
+              }}
               className="hidden sm:block px-6 py-2 border border-blue-500/50 hover:bg-blue-600 hover:text-white transition-all text-xs uppercase tracking-widest font-bold text-slate-900 dark:text-white shadow-lg hover:shadow-blue-500/40 active:scale-95"
             >
               Inquiry
@@ -138,7 +150,7 @@ const Header: React.FC = () => {
 
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 relative z-[80] hover:bg-slate-200 dark:hover:bg-zinc-800 rounded-full transition-colors"
+              className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 relative z-[100] hover:bg-slate-200 dark:hover:bg-zinc-800 rounded-full transition-colors"
               aria-label="Toggle Menu"
             >
               <span className={`w-6 h-0.5 bg-slate-900 dark:bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -148,7 +160,34 @@ const Header: React.FC = () => {
           </div>
         </div>
       </nav>
-      {/* ... (Mobile menu remains similar but with hover/shadow polish on links) */}
+
+      {/* Mobile Menu Overlay */}
+      <div className={`fixed inset-0 z-[75] bg-slate-50 dark:bg-[#050505] transition-all duration-700 flex flex-col items-center justify-center gap-8 md:hidden ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none translate-y-10'}`}>
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <img src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1000" className="w-full h-full object-cover" alt="Background" />
+        </div>
+        {navLinks.map((link, idx) => (
+          <a
+            key={link.id}
+            href={`#${link.id}`}
+            onClick={(e) => scrollToSection(e, link.id)}
+            className="font-syncopate text-2xl font-bold uppercase tracking-tighter text-slate-900 dark:text-white hover:text-blue-500 transition-all"
+            style={{ transitionDelay: `${idx * 100}ms` }}
+          >
+            {link.name}
+          </a>
+        ))}
+        <button 
+          onClick={() => {
+            setIsMenuOpen(false);
+            const element = document.getElementById('contact');
+            if (element) element.scrollIntoView({ behavior: 'smooth' });
+          }}
+          className="mt-4 px-10 py-4 bg-blue-600 text-white font-bold uppercase tracking-[0.3em] text-xs shadow-xl active:scale-95"
+        >
+          Request Quote
+        </button>
+      </div>
     </>
   );
 };

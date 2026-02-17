@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from 'react';
 
 const Logo3DViewer: React.FC = () => {
   const [rotation, setRotation] = useState({ x: -10, y: 25 });
+  const [hoverTilt, setHoverTilt] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const lastPos = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
@@ -25,10 +26,31 @@ const Logo3DViewer: React.FC = () => {
 
   const stopDragging = () => setIsDragging(false);
 
+  const handleContainerMouseMove = (e: React.MouseEvent) => {
+    if (isDragging || !containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    
+    // Calculate distance from center (normalized -1 to 1)
+    const mouseX = (e.clientX - centerX) / (rect.width / 2);
+    const mouseY = (e.clientY - centerY) / (rect.height / 2);
+    
+    // Subtle tilt: +/- 15 degrees max
+    setHoverTilt({
+      x: -mouseY * 15,
+      y: mouseX * 15
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoverTilt({ x: 0, y: 0 });
+  };
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => onDrag(e.clientX, e.clientY);
     const handleTouchMove = (e: TouchEvent) => {
-      // Prevent scrolling while interacting with the 3D model
       if (isDragging) e.preventDefault();
       onDrag(e.touches[0].clientX, e.touches[0].clientY);
     };
@@ -53,6 +75,8 @@ const Logo3DViewer: React.FC = () => {
       className="w-full h-[350px] md:h-[500px] flex items-center justify-center perspective-[1500px] cursor-grab active:cursor-grabbing bg-slate-100 dark:bg-[#030303] rounded-2xl border border-slate-200 dark:border-zinc-900 overflow-hidden relative group"
       onMouseDown={(e) => startDragging(e.clientX, e.clientY)}
       onTouchStart={(e) => startDragging(e.touches[0].clientX, e.touches[0].clientY)}
+      onMouseMove={handleContainerMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="absolute inset-0 opacity-[0.05] dark:opacity-10 pointer-events-none" style={{ 
         backgroundImage: `linear-gradient(#888 1px, transparent 1px), linear-gradient(90deg, #888 1px, transparent 1px)`,
@@ -60,11 +84,11 @@ const Logo3DViewer: React.FC = () => {
       }}></div>
 
       <div 
-        className={`relative ${!isDragging ? 'animate-idle-sway' : ''}`}
+        className={`relative ${!isDragging && hoverTilt.x === 0 && hoverTilt.y === 0 ? 'animate-idle-sway' : ''}`}
         style={{ 
-          transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
+          transform: `rotateX(${rotation.x + hoverTilt.x}deg) rotateY(${rotation.y + hoverTilt.y}deg)`,
           transformStyle: 'preserve-3d',
-          transition: isDragging ? 'none' : 'transform 1.2s cubic-bezier(0.16, 1, 0.3, 1)'
+          transition: isDragging ? 'none' : 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
         }}
       >
         <div className="relative preserve-3d" style={{ transformStyle: 'preserve-3d' }}>
